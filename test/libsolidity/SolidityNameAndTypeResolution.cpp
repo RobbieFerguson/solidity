@@ -165,6 +165,18 @@ BOOST_AUTO_TEST_CASE(scoping_activation)
 BOOST_AUTO_TEST_CASE(scoping_self_use)
 {
 	char const* text = R"(
+		contract test {
+			function f() public {
+				uint a = a;
+			}
+		}
+	)";
+	CHECK_ERROR(text, DeclarationError, "Undeclared identifier");
+}
+
+BOOST_AUTO_TEST_CASE(scoping_self_use_050)
+{
+	char const* text = R"(
 		pragma experimental "v0.5.0";
 		contract test {
 			function f() public {
